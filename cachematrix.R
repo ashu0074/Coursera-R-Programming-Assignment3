@@ -23,3 +23,29 @@ list(set=set, get=get, setinv = setinv, getinv=getinv)   ##we need this order to
 ## If the inverse has already been calculated (and the matrix has not changed),
 ## then cacheSolve will retrieve the inverse from the cache
 
+
+cacheSolve <- function(x, ...) {
+        ## Return a matrix that is the inverse of 'x'
+  
+  inv <- x$getinv()  
+  
+  # check if the inverse is calculated
+  if (is.null(inv)){
+  
+    #if not then calculate the inverse 
+    mat.data = x$get()
+    inv = solve(mat.data, ...)
+    
+    # sets the value of the inverse in the cache via the setinv function.
+    x$setinv(inv)
+    
+    return(inv)
+     
+  }
+  
+  # else get it from the cache and skips the computation. 
+  message("getting cached data")
+  
+  return(inv)
+}
+
